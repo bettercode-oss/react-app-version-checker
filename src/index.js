@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { VersionService } from './version.service'
 import AppVersionStorage from './app.version.storage'
+import PropTypes from 'prop-types'
 
 let intervalId = null
 
@@ -48,4 +49,10 @@ export const AppVersionChecker = ({
   }, [])
 
   return show && children
+}
+
+AppVersionChecker.propTypes = {
+  minuteInterval: PropTypes.number.isRequired,
+  versionApiEndPoint: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired
 }

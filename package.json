@@ -4,7 +4,7 @@
   "description": "React App Version Check module",
   "author": "YooYoungmo",
   "license": "MIT",
-  "repository": "YooYoungmo/@bettercode/react-app-version-checker",
+  "repository": "https://github.com/bettercode-oss/react-app-version-checker",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
