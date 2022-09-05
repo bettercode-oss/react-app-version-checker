@@ -1,6 +1,51 @@
-import React from 'react'
-import styles from './styles.module.css'
+import React, { useEffect, useState } from 'react'
+import { VersionService } from './version.service'
+import AppVersionStorage from './app.version.storage'
 
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+let intervalId = null
+
+export const AppVersionChecker = ({
+  minuteInterval,
+  versionApiEndPoint,
+  children
+}) => {
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    if (intervalId) {
+      clearInterval(intervalId)
+      intervalId = null
+    }
+
+    VersionService.getAppVersion(versionApiEndPoint)
+      .then((response) => response.json())
+      .then((result) => {
+        AppVersionStorage.setAppVersion(result.version)
+      })
+      .catch((error) => {
+        console.error('app version checker - get version error:', error)
+      })
+
+    intervalId = setInterval(() => {
+      VersionService.getAppVersion(versionApiEndPoint)
+        .then((response) => response.json())
+        .then((result) => {
+          if (AppVersionStorage.equalVersion(result.version) === false) {
+            setShow(true)
+          }
+        })
+        .catch((error) => {
+          console.error('app version checker - get version error:', error)
+        })
+    }, minuteInterval * 60 * 1000)
+
+    return function cleanup() {
+      if (intervalId) {
+        clearInterval(intervalId)
+        intervalId = null
+      }
+    }
+  }, [])
+
+  return show && children
 }

@@ -1,30 +1,41 @@
 # @bettercode/react-app-version-checker
 
-> React App Version Check module
-
-[![NPM](https://img.shields.io/npm/v/@bettercode/react-app-version-checker.svg)](https://www.npmjs.com/package/@bettercode/react-app-version-checker) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+> This module checks to update the code when the React App is redeployed.
 
 ## Install
 
 ```bash
+# Using npm
 npm install --save @bettercode/react-app-version-checker
+
+# Using yarn
+yarn add @bettercode/react-app-version-checker
 ```
-
-## Usage
-
-```jsx
-import React, { Component } from 'react'
-
-import MyComponent from '@bettercode/react-app-version-checker'
-import '@bettercode/react-app-version-checker/dist/index.css'
-
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+## Precondition
+You need a REST API to query the app version.
+The Http response value should be as follows.
+```json
+{
+ "version": 2
 }
 ```
 
-## License
+## Usage
+It is used to wrap the React component to be used when the version changes.
+```jsx
+import React from 'react'
+import {AppVersionChecker} from '@bettercode/react-app-version-checker'
 
-MIT © [YooYoungmo](https://github.com/YooYoungmo)
+const App = () => {
+  const handleUpdate = () => {
+    window.location.reload();
+  }
+
+  return <AppVersionChecker minuteInterval={30}
+                            versionApiEndPoint="http://localhost:3000/version.json">
+    <div>
+      Updated to new version. Click 'OK' to use the latest version.<button onClick={handleUpdate}>OK</button>
+    </div>
+  </AppVersionChecker>
+}
+```
