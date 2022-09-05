@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 let intervalId = null
 
-export const AppVersionChecker = ({
+const AppVersionChecker = ({
   minuteInterval,
   versionApiEndPoint,
   children
@@ -56,3 +56,5 @@ AppVersionChecker.propTypes = {
   versionApiEndPoint: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired
 }
+
+export default AppVersionChecker
