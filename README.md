@@ -45,3 +45,4 @@ const App = () => {
 | onOk               | Set the handler to handle click event | window.location.reload() |
 | okText             | The text of the Ok button             | Ok                       |
 | zIndex             | CSS z-index value                     | 1                        |
+| bgColor            | Background color                      | #ffc75f                  |

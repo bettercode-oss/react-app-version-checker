@@ -14,7 +14,7 @@ const NoticeNewVersion = styled.div`
   top: calc(30px - 5px * -1);
   display: flex;
   align-items: center;
-  background-color: #ffc75f;
+  background-color: ${(props) => props.bgColor};
   z-index: ${(props) => props.zIndex};
 `
 
@@ -51,6 +51,7 @@ export const AppVersionChecker = ({
   okText,
   onOk,
   zIndex,
+  bgColor,
   minuteInterval,
   versionApiEndPoint
 }) => {
@@ -126,7 +127,7 @@ export const AppVersionChecker = ({
 
   return (
     show && (
-      <NoticeNewVersion zIndex={zIndex}>
+      <NoticeNewVersion zIndex={zIndex} bgColor={bgColor}>
         <NoticeNewVersionInner>
           {message}
           <OkButton onClick={handleOk}>{okText}</OkButton>
@@ -142,6 +143,7 @@ AppVersionChecker.propTypes = {
   okText: PropTypes.string,
   onOk: PropTypes.func,
   zIndex: PropTypes.number,
+  bgColor: PropTypes.string,
   minuteInterval: PropTypes.number.isRequired,
   versionApiEndPoint: PropTypes.string.isRequired
 }
@@ -151,5 +153,6 @@ AppVersionChecker.defaultProps = {
   okText: 'OK',
   onOk: () => {
     window.location.reload()
-  }
+  },
+  bgColor: '#ffc75f'
 }
