@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 let intervalId = null
 
+const ONE_MINUTE = 60 * 1000
+
 const NoticeNewVersion = styled.div`
   height: 30px;
   position: sticky;
@@ -13,7 +15,7 @@ const NoticeNewVersion = styled.div`
   display: flex;
   align-items: center;
   background-color: #ffc75f;
-  z-index: ${(props) => (props.zIndex ? props.zIndex : 1)};
+  z-index: ${(props) => props.zIndex};
 `
 
 const NoticeNewVersionInner = styled.div`
@@ -63,6 +65,11 @@ export const AppVersionChecker = ({
     VersionService.getAppVersion(versionApiEndPoint)
       .then((response) => response.json())
       .then((result) => {
+        try {
+          validateResponse(result)
+        } catch (e) {
+          console.error(e)
+        }
         AppVersionStorage.setAppVersion(result.version)
       })
       .catch((error) => {
@@ -73,6 +80,11 @@ export const AppVersionChecker = ({
       VersionService.getAppVersion(versionApiEndPoint)
         .then((response) => response.json())
         .then((result) => {
+          try {
+            validateResponse(result)
+          } catch (e) {
+            console.error(e)
+          }
           if (AppVersionStorage.equalVersion(result.version) === false) {
             setShow(true)
           }
@@ -80,7 +92,7 @@ export const AppVersionChecker = ({
         .catch((error) => {
           console.error('app version checker - get version error:', error)
         })
-    }, minuteInterval * 60 * 1000)
+    }, minuteInterval * ONE_MINUTE)
 
     return function cleanup() {
       if (intervalId) {
@@ -90,16 +102,26 @@ export const AppVersionChecker = ({
     }
   }, [])
 
+  const validateResponse = (res) => {
+    if (!res.version) {
+      throw Error(
+        'app version checker - api spec error, not found version key and value'
+      )
+    }
+
+    if (isNaN(res.version)) {
+      throw Error(
+        'app version checker - api spec error, version must be a number'
+      )
+    }
+  }
+
   const handleCancel = () => {
     setShow(false)
   }
 
   const handleOk = () => {
-    if (onOk) {
-      onOk()
-    } else {
-      window.location.reload()
-    }
+    onOk()
   }
 
   return (
@@ -107,7 +129,7 @@ export const AppVersionChecker = ({
       <NoticeNewVersion zIndex={zIndex}>
         <NoticeNewVersionInner>
           {message}
-          <OkButton onClick={handleOk}>{okText || 'OK'}</OkButton>
+          <OkButton onClick={handleOk}>{okText}</OkButton>
           <CancelButton onClick={handleCancel} />
         </NoticeNewVersionInner>
       </NoticeNewVersion>
@@ -122,4 +144,12 @@ AppVersionChecker.propTypes = {
   zIndex: PropTypes.number,
   minuteInterval: PropTypes.number.isRequired,
   versionApiEndPoint: PropTypes.string.isRequired
+}
+
+AppVersionChecker.defaultProps = {
+  zIndex: 1,
+  okText: 'OK',
+  onOk: () => {
+    window.location.reload()
+  }
 }
