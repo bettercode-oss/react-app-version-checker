@@ -13,7 +13,7 @@ const NoticeNewVersion = styled.div`
   display: flex;
   align-items: center;
   background-color: #ffc75f;
-  z-index: 1;
+  z-index: ${(props) => (props.zIndex ? props.zIndex : 1)};
 `
 
 const NoticeNewVersionInner = styled.div`
@@ -48,6 +48,7 @@ export const AppVersionChecker = ({
   message,
   okText,
   onOk,
+  zIndex,
   minuteInterval,
   versionApiEndPoint
 }) => {
@@ -103,7 +104,7 @@ export const AppVersionChecker = ({
 
   return (
     show && (
-      <NoticeNewVersion>
+      <NoticeNewVersion zIndex={zIndex}>
         <NoticeNewVersionInner>
           {message}
           <OkButton onClick={handleOk}>{okText || 'OK'}</OkButton>
@@ -118,6 +119,7 @@ AppVersionChecker.propTypes = {
   message: PropTypes.string.isRequired,
   okText: PropTypes.string,
   onOk: PropTypes.func,
+  zIndex: PropTypes.number,
   minuteInterval: PropTypes.number.isRequired,
   versionApiEndPoint: PropTypes.string.isRequired
 }
