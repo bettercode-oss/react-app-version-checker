@@ -2,16 +2,7 @@
 
 > This module checks to update the code when the React App is redeployed.
 
-## Install
-
-```bash
-# Using npm
-npm install --save @bettercode/react-app-version-checker
-
-# Using yarn
-yarn add @bettercode/react-app-version-checker
-```
-## Precondition
+## Requirements
 You need a REST API to query the app version.
 The Http response value should be as follows.
 ```json
@@ -20,7 +11,19 @@ The Http response value should be as follows.
 }
 ```
 
-## Usage
+## Getting started
+
+### Install
+
+```bash
+# Using npm
+npm install --save @bettercode/react-app-version-checker
+
+# Using yarn
+yarn add @bettercode/react-app-version-checker
+```
+
+### Usage
 ```jsx
 import React from 'react'
 
@@ -36,7 +39,7 @@ const App = () => {
 
 ![image](https://user-images.githubusercontent.com/16472109/188525610-b536d516-faa4-4a7e-8923-0196413e7707.png)
 
-## Properties
+### Component Properties
 | Property           | Description                           | Default Value            |
 |--------------------|---------------------------------------|--------------------------|
 | message            | The text of the message area          |                          |
