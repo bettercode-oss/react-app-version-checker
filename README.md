@@ -24,18 +24,22 @@ The Http response value should be as follows.
 It is used to wrap the React component to be used when the version changes.
 ```jsx
 import React from 'react'
-import {AppVersionChecker} from '@bettercode/react-app-version-checker'
+
+import { AppVersionChecker } from '@bettercode/react-app-version-checker'
 
 const App = () => {
-  const handleUpdate = () => {
-    window.location.reload();
-  }
-
-  return <AppVersionChecker minuteInterval={30}
-                            versionApiEndPoint="http://localhost:3000/version.json">
-    <div>
-      Updated to new version. Click 'OK' to use the latest version.<button onClick={handleUpdate}>OK</button>
-    </div>
-  </AppVersionChecker>
+  return <AppVersionChecker message={'Updated to new version. Click \'OK\' to use the latest version.'}
+                            minuteInterval={1} versionApiEndPoint="http://localhost:3000/version.json"/>
 }
 ```
+
+![image](https://user-images.githubusercontent.com/16472109/188525610-b536d516-faa4-4a7e-8923-0196413e7707.png)
+
+## Properties
+| Property           | Description                           | Default Value            |
+|--------------------|---------------------------------------|--------------------------|
+| message            | The text of the message area          |                          |
+| minuteInterval     | check cycle                           |                          |
+| versionApiEndPoint | version checking REST API endpoint    |                          |
+| onOk               | Set the handler to handle click event | window.location.reload() |
+| okText             | The text of the Ok button             | Ok                       |
